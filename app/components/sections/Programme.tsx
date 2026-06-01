@@ -63,81 +63,6 @@ const modules = [
   },
 ]
 
-// Scroll-spy script
-const scrollSpyScript = `
-(function() {
-  const menuItems = document.querySelectorAll('[data-module-menu]');
-  const slides = document.querySelectorAll('[data-module-slide]');
-  const container = document.getElementById('programme-container');
-
-  if (!menuItems.length || !slides.length) return;
-
-  let currentIndex = 0;
-
-  function setActive(index) {
-    if (index === currentIndex) return;
-    currentIndex = index;
-
-    // Update menu
-    menuItems.forEach((item, i) => {
-      if (i === index) {
-        item.classList.add('opacity-100', 'border-l-accent');
-        item.classList.remove('opacity-50', 'border-l-transparent');
-        item.querySelector('[data-num]').classList.add('text-accent');
-        item.querySelector('[data-num]').classList.remove('text-muted');
-      } else {
-        item.classList.remove('opacity-100', 'border-l-accent');
-        item.classList.add('opacity-50', 'border-l-transparent');
-        item.querySelector('[data-num]').classList.remove('text-accent');
-        item.querySelector('[data-num]').classList.add('text-muted');
-      }
-    });
-
-    // Update slides
-    slides.forEach((slide, i) => {
-      if (i === index) {
-        slide.classList.remove('opacity-0', 'translate-y-4');
-        slide.classList.add('opacity-100', 'translate-y-0');
-      } else {
-        slide.classList.add('opacity-0', 'translate-y-4');
-        slide.classList.remove('opacity-100', 'translate-y-0');
-      }
-    });
-  }
-
-  // Click handlers
-  menuItems.forEach((item, i) => {
-    item.addEventListener('click', () => setActive(i));
-  });
-
-  // Scroll spy
-  function onScroll() {
-    const containerRect = container.getBoundingClientRect();
-    const viewportCenter = window.innerHeight / 2;
-
-    // Calculate progress through the section
-    const sectionTop = containerRect.top;
-    const sectionHeight = containerRect.height;
-    const scrollProgress = (viewportCenter - sectionTop) / sectionHeight;
-
-    // Map scroll progress to module index
-    const newIndex = Math.min(
-      Math.max(0, Math.floor(scrollProgress * ${modules.length})),
-      ${modules.length - 1}
-    );
-
-    if (containerRect.top < viewportCenter && containerRect.bottom > viewportCenter) {
-      setActive(newIndex);
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  // Initial state
-  setActive(0);
-})();
-`
-
 export function Programme() {
   return (
     <section className="py-[100px] max-md:py-16" id="programme">
@@ -156,7 +81,7 @@ export function Programme() {
 
         <div
           id="programme-container"
-          className="grid grid-cols-[288px_1fr] gap-14 items-start max-md:grid-cols-1 max-md:gap-0 min-h-[200vh]"
+          className="grid grid-cols-[288px_1fr] gap-14 items-start max-md:grid-cols-1 max-md:gap-0 min-h-[130vh]"
         >
           {/* Menu - hidden on mobile */}
           <div className="sticky top-[104px] flex flex-col max-md:hidden">
@@ -269,9 +194,6 @@ export function Programme() {
           </div>
         </div>
       </div>
-
-      {/* Scroll spy script */}
-      <script dangerouslySetInnerHTML={{ __html: scrollSpyScript }} />
     </section>
   )
 }

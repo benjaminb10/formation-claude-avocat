@@ -54,6 +54,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <div id="app">{children}</div>
         <ScrollRestoration />
         <Scripts />
+        <script src="/scripts/animations.js" defer />
       </body>
     </html>
   )
