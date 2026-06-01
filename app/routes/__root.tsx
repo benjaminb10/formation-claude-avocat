@@ -15,7 +15,7 @@ export const Route = createRootRoute({
       {
         name: 'description',
         content:
-          'Formation intra-cabinet à Claude pour les avocats. 4 heures, présentiel, conforme secret professionnel et AI Act. Finançable FIF-PL.',
+          'Formation intra-cabinet à Claude pour les avocats. 4 heures, présentiel, conforme secret professionnel et AI Act.',
       },
       { title: 'Formation Claude pour Avocats' },
     ],

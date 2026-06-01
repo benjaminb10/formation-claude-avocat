@@ -37,3 +37,4 @@ app.config.timestamp_*.js
 # Design files (not needed in prod)
 avocat.zip
 design_handoff_formation_claude/
+.vercel

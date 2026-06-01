@@ -37,12 +37,6 @@ const faqItems = [
       'La formation est intra-cabinet, sans limite de participants. Pour les grands cabinets, nous recommandons des groupes par spécialité pour calibrer les cas pratiques.',
   },
   {
-    id: 'financement',
-    question: 'Est-ce finançable FIF-PL ou OPCO ?',
-    answer:
-      'Oui, via le FIF-PL pour les avocats libéraux, OPCO Atlas pour les cabinets employeurs, CPF pour les salariés. Nous fournissons tous les justificatifs.',
-  },
-  {
     id: 'ordinateur',
     question: 'Faut-il apporter son ordinateur ?',
     answer:

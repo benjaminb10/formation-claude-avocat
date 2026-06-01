@@ -3,8 +3,6 @@ import { Button } from '~/components/ui/button'
 import { ClaudeMockup } from './ClaudeMockup'
 
 const badges = [
-  { label: 'Qualiopi' },
-  { label: 'FIF-PL' },
   { label: 'Claude Team' },
   { label: '4 heures' },
 ]
