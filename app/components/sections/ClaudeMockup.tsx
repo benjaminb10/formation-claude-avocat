@@ -24,92 +24,102 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
 // Script vanilla JS pour l'animation (contourne les problèmes d'hydratation React)
 const animationScript = `
 (function() {
-  const sequences = ${JSON.stringify(sequences)};
-  let seqIndex = 0;
-  let active = true;
+  function init() {
+    const sequences = ${JSON.stringify(sequences)};
+    let seqIndex = 0;
+    let active = true;
 
-  const chatContainer = document.getElementById('claude-chat');
-  const userBubble = document.getElementById('claude-user-bubble');
-  const userText = document.getElementById('claude-user-text');
-  const claudeResponse = document.getElementById('claude-response');
-  const claudeText = document.getElementById('claude-text');
-  const userCursor = document.getElementById('claude-user-cursor');
-  const claudeCursor = document.getElementById('claude-cursor');
+    const chatContainer = document.getElementById('claude-chat');
+    const userBubble = document.getElementById('claude-user-bubble');
+    const userText = document.getElementById('claude-user-text');
+    const claudeResponse = document.getElementById('claude-response');
+    const claudeText = document.getElementById('claude-text');
+    const userCursor = document.getElementById('claude-user-cursor');
+    const claudeCursor = document.getElementById('claude-cursor');
 
-  if (!chatContainer || !userText || !claudeText) return;
+    if (!chatContainer || !userText || !claudeText) return;
 
-  // Check reduced motion preference
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    userBubble.style.opacity = '1';
-    claudeResponse.style.opacity = '1';
-    userText.textContent = sequences[0].user;
-    claudeText.textContent = sequences[0].claude;
-    userCursor.style.display = 'none';
-    claudeCursor.style.display = 'none';
-    return;
-  }
+    // Check reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      userBubble.style.opacity = '1';
+      claudeResponse.style.opacity = '1';
+      userText.textContent = sequences[0].user;
+      claudeText.textContent = sequences[0].claude;
+      userCursor.style.display = 'none';
+      claudeCursor.style.display = 'none';
+      return;
+    }
 
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-  async function typeText(element, text, cursor, speed) {
-    cursor.style.display = 'inline';
-    for (let i = 0; i <= text.length; i++) {
+    async function typeText(element, text, cursor, speed) {
+      cursor.style.display = 'inline';
+      for (let i = 0; i <= text.length; i++) {
+        if (!active) return;
+        element.textContent = text.slice(0, i);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        await sleep(speed);
+      }
+      cursor.style.display = 'none';
+    }
+
+    async function runSequence() {
+      const seq = sequences[seqIndex];
+
+      // Reset
+      userBubble.style.opacity = '0';
+      claudeResponse.style.opacity = '0';
+      userText.textContent = '';
+      claudeText.textContent = '';
+
+      await sleep(200);
       if (!active) return;
-      element.textContent = text.slice(0, i);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-      await sleep(speed);
+
+      // Show user bubble
+      userBubble.style.opacity = '1';
+      await typeText(userText, seq.user, userCursor, 35);
+      if (!active) return;
+
+      await sleep(400);
+      if (!active) return;
+
+      // Show claude response
+      claudeResponse.style.opacity = '1';
+      await typeText(claudeText, seq.claude, claudeCursor, 18);
+      if (!active) return;
+
+      await sleep(2500);
+      if (!active) return;
+
+      // Fade out
+      userBubble.style.opacity = '0';
+      claudeResponse.style.opacity = '0';
+      await sleep(300);
+
+      seqIndex = (seqIndex + 1) % sequences.length;
     }
-    cursor.style.display = 'none';
-  }
 
-  async function runSequence() {
-    const seq = sequences[seqIndex];
-
-    // Reset
-    userBubble.style.opacity = '0';
-    claudeResponse.style.opacity = '0';
-    userText.textContent = '';
-    claudeText.textContent = '';
-
-    await sleep(200);
-    if (!active) return;
-
-    // Show user bubble
-    userBubble.style.opacity = '1';
-    await typeText(userText, seq.user, userCursor, 35);
-    if (!active) return;
-
-    await sleep(400);
-    if (!active) return;
-
-    // Show claude response
-    claudeResponse.style.opacity = '1';
-    await typeText(claudeText, seq.claude, claudeCursor, 18);
-    if (!active) return;
-
-    await sleep(2500);
-    if (!active) return;
-
-    // Fade out
-    userBubble.style.opacity = '0';
-    claudeResponse.style.opacity = '0';
-    await sleep(300);
-
-    seqIndex = (seqIndex + 1) % sequences.length;
-  }
-
-  async function loop() {
-    while (active) {
-      await runSequence();
-      await sleep(500);
+    async function loop() {
+      while (active) {
+        await runSequence();
+        await sleep(500);
+      }
     }
+
+    // Start animation
+    loop();
+
+    // Cleanup on navigation
+    window.addEventListener('beforeunload', () => { active = false; });
   }
 
-  // Start animation
-  loop();
-
-  // Cleanup on navigation
-  window.addEventListener('beforeunload', () => { active = false; });
+  // Wait for DOM to be ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    // DOM already loaded, but defer to next frame to ensure elements exist
+    requestAnimationFrame(init);
+  }
 })();
 `
 

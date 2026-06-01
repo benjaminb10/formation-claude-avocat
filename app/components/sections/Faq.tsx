@@ -1,9 +1,8 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '~/components/ui/accordion'
+'use client'
+
+import { useState } from 'react'
+import { Plus, Minus } from 'lucide-react'
+import { cn } from '~/lib/utils'
 
 const faqItems = [
   {
@@ -50,7 +49,69 @@ const faqItems = [
   },
 ]
 
+function AccordionItem({
+  item,
+  isOpen,
+  onToggle,
+}: {
+  item: (typeof faqItems)[0]
+  isOpen: boolean
+  onToggle: () => void
+}) {
+  return (
+    <div className="border-b border-border">
+      <button
+        type="button"
+        onClick={onToggle}
+        className={cn(
+          'flex w-full flex-1 items-center justify-between py-[22px] font-heading font-bold text-[16.5px] text-ink transition-colors',
+          'hover:text-accent cursor-pointer text-left'
+        )}
+      >
+        {item.question}
+        <div
+          className={cn(
+            'relative w-7 h-7 shrink-0 rounded-[8px] border border-border bg-white',
+            'transition-all duration-200 ease-out',
+            'hover:border-accent',
+            isOpen && 'bg-accent border-accent'
+          )}
+        >
+          <Plus
+            className={cn(
+              'absolute inset-0 m-auto h-3 w-3 text-ink transition-all duration-300',
+              isOpen && 'rotate-90 opacity-0 text-white'
+            )}
+          />
+          <Minus
+            className={cn(
+              'absolute inset-0 m-auto h-3 w-3 text-white opacity-0 transition-all duration-300',
+              isOpen && 'opacity-100'
+            )}
+          />
+        </div>
+      </button>
+      <div
+        className={cn(
+          'overflow-hidden transition-all duration-300 ease-out',
+          isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+        )}
+      >
+        <div className="pb-6 pr-12 text-[15px] text-text leading-[1.7]">
+          {item.answer}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function Faq() {
+  const [openId, setOpenId] = useState<string | null>('secret')
+
+  const handleToggle = (id: string) => {
+    setOpenId(openId === id ? null : id)
+  }
+
   return (
     <section className="py-[100px] bg-surface max-md:py-16" id="faq">
       <div className="wrap">
@@ -75,19 +136,16 @@ export function Faq() {
           </div>
 
           {/* Right - Accordion */}
-          <Accordion
-            type="single"
-            collapsible
-            defaultValue="secret"
-            className="border-t border-border"
-          >
+          <div className="border-t border-border">
             {faqItems.map((item) => (
-              <AccordionItem key={item.id} value={item.id}>
-                <AccordionTrigger>{item.question}</AccordionTrigger>
-                <AccordionContent>{item.answer}</AccordionContent>
-              </AccordionItem>
+              <AccordionItem
+                key={item.id}
+                item={item}
+                isOpen={openId === item.id}
+                onToggle={() => handleToggle(item.id)}
+              />
             ))}
-          </Accordion>
+          </div>
         </div>
       </div>
     </section>
