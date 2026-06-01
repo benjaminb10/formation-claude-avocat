@@ -2,7 +2,7 @@ import { Pencil, Clock, Star, ArrowUp } from 'lucide-react'
 
 export function ClaudeMockup() {
   return (
-    <div className="bg-[#1C1917] border border-white/[0.08] rounded-card overflow-hidden h-[420px] w-full flex flex-col shadow-mockup max-md:h-[400px] max-md:max-w-[340px] max-md:mx-auto">
+    <div className="bg-[#1C1917] border border-white/[0.08] rounded-card overflow-hidden h-[420px] w-full flex flex-col shadow-mockup max-md:h-[400px] max-sm:h-[340px] max-md:mx-4 max-sm:mx-3">
       {/* Title bar */}
       <div className="bg-[#252220] h-11 px-4 shrink-0 flex items-center gap-2">
         <div className="flex gap-2">
@@ -21,7 +21,7 @@ export function ClaudeMockup() {
       {/* Main */}
       <div className="flex-1 flex min-h-0">
         {/* Sidebar */}
-        <div className="w-11 shrink-0 bg-[#1C1917] border-r border-white/[0.08] flex flex-col items-center gap-5 pt-4">
+        <div className="w-11 shrink-0 bg-[#1C1917] border-r border-white/[0.08] flex flex-col items-center gap-5 pt-4 max-sm:hidden">
           <Pencil className="w-[18px] h-[18px] text-white opacity-30" />
           <Clock className="w-[18px] h-[18px] text-white opacity-30" />
           <Star className="w-[18px] h-[18px] text-white opacity-30" />
@@ -30,14 +30,14 @@ export function ClaudeMockup() {
         {/* Chat */}
         <div
           id="claude-chat"
-          className="flex-1 p-4 overflow-y-auto flex flex-col justify-end gap-4"
+          className="flex-1 p-4 max-sm:p-3 overflow-y-auto flex flex-col justify-end gap-4 max-sm:gap-3"
         >
           {/* User bubble */}
           <div
             id="claude-user-bubble"
             className="flex justify-end opacity-0"
           >
-            <div className="bg-[#2C2925] border border-white/10 rounded-[18px_18px_4px_18px] px-3.5 py-2.5 max-w-[85%] text-sm text-white/85 leading-[1.5]">
+            <div className="bg-[#2C2925] border border-white/10 rounded-[18px_18px_4px_18px] px-3.5 py-2.5 max-w-[85%] max-sm:max-w-[95%] text-sm text-white/85 leading-[1.5]">
               <span id="claude-user-text"></span>
               <span id="claude-user-cursor" className="typing-cursor">▋</span>
             </div>

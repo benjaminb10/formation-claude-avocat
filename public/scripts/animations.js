@@ -190,16 +190,117 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
     setActive(0);
   }
 
+  // FAQ Accordion
+  function initFaqAccordion() {
+    const items = document.querySelectorAll('[data-faq-item]');
+
+    if (!items.length) return;
+
+    items.forEach(item => {
+      const trigger = item.querySelector('[data-faq-trigger]');
+      const content = item.querySelector('[data-faq-content]');
+      const iconPlus = item.querySelector('[data-icon-plus]');
+      const iconMinus = item.querySelector('[data-icon-minus]');
+      const iconBox = item.querySelector('[data-icon-box]');
+
+      if (!trigger || !content) return;
+
+      trigger.addEventListener('click', () => {
+        const isOpen = item.getAttribute('data-state') === 'open';
+
+        // Close all other items
+        items.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.setAttribute('data-state', 'closed');
+            const otherContent = otherItem.querySelector('[data-faq-content]');
+            const otherPlus = otherItem.querySelector('[data-icon-plus]');
+            const otherMinus = otherItem.querySelector('[data-icon-minus]');
+            const otherBox = otherItem.querySelector('[data-icon-box]');
+            if (otherContent) {
+              otherContent.style.maxHeight = '0px';
+              otherContent.style.opacity = '0';
+            }
+            if (otherPlus) {
+              otherPlus.style.opacity = '1';
+              otherPlus.style.transform = 'rotate(0deg)';
+            }
+            if (otherMinus) otherMinus.style.opacity = '0';
+            if (otherBox) {
+              otherBox.style.backgroundColor = 'white';
+              otherBox.style.borderColor = '#E3E5EE';
+            }
+          }
+        });
+
+        // Toggle current item
+        if (isOpen) {
+          item.setAttribute('data-state', 'closed');
+          content.style.maxHeight = '0px';
+          content.style.opacity = '0';
+          if (iconPlus) {
+            iconPlus.style.opacity = '1';
+            iconPlus.style.transform = 'rotate(0deg)';
+          }
+          if (iconMinus) iconMinus.style.opacity = '0';
+          if (iconBox) {
+            iconBox.style.backgroundColor = 'white';
+            iconBox.style.borderColor = '#E3E5EE';
+          }
+        } else {
+          item.setAttribute('data-state', 'open');
+          content.style.maxHeight = content.scrollHeight + 'px';
+          content.style.opacity = '1';
+          if (iconPlus) {
+            iconPlus.style.opacity = '0';
+            iconPlus.style.transform = 'rotate(90deg)';
+          }
+          if (iconMinus) iconMinus.style.opacity = '1';
+          if (iconBox) {
+            iconBox.style.backgroundColor = '#DA7756';
+            iconBox.style.borderColor = '#DA7756';
+          }
+        }
+      });
+    });
+
+    // Open first item by default
+    const firstItem = items[0];
+    if (firstItem) {
+      firstItem.setAttribute('data-state', 'open');
+      const content = firstItem.querySelector('[data-faq-content]');
+      const iconPlus = firstItem.querySelector('[data-icon-plus]');
+      const iconMinus = firstItem.querySelector('[data-icon-minus]');
+      const iconBox = firstItem.querySelector('[data-icon-box]');
+      if (content) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.style.opacity = '1';
+      }
+      if (iconPlus) {
+        iconPlus.style.opacity = '0';
+        iconPlus.style.transform = 'rotate(90deg)';
+      }
+      if (iconMinus) iconMinus.style.opacity = '1';
+      if (iconBox) {
+        iconBox.style.backgroundColor = '#DA7756';
+        iconBox.style.borderColor = '#DA7756';
+      }
+    }
+  }
+
   // Initialize when DOM is ready
   // Wait for React to finish rendering (createRoot clears and re-renders)
   function init() {
     initClaudeChat();
     initProgrammeScrollSpy();
+    initFaqAccordion();
   }
 
   function waitForElements() {
     // Check if key elements exist (React has finished rendering)
-    if (document.getElementById('claude-chat') && document.getElementById('programme-container')) {
+    const hasChat = document.getElementById('claude-chat');
+    const hasFaq = document.querySelector('[data-faq-item]');
+
+    if (hasChat || hasFaq) {
       init();
     } else {
       // Retry after a short delay

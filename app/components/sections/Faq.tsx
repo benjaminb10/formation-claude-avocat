@@ -45,131 +45,9 @@ const faqItems = [
   },
 ]
 
-// Script vanilla JS pour l'accordion (contourne les problèmes d'hydratation React)
-const accordionScript = `
-(function() {
-  function init() {
-    const items = document.querySelectorAll('[data-faq-item]');
-
-    items.forEach(item => {
-      const trigger = item.querySelector('[data-faq-trigger]');
-      const content = item.querySelector('[data-faq-content]');
-      const iconPlus = item.querySelector('[data-icon-plus]');
-      const iconMinus = item.querySelector('[data-icon-minus]');
-      const iconBox = item.querySelector('[data-icon-box]');
-
-      if (!trigger || !content) return;
-
-      trigger.addEventListener('click', () => {
-        const isOpen = item.getAttribute('data-state') === 'open';
-
-        // Close all other items
-        items.forEach(otherItem => {
-          if (otherItem !== item) {
-            otherItem.setAttribute('data-state', 'closed');
-            const otherContent = otherItem.querySelector('[data-faq-content]');
-            const otherPlus = otherItem.querySelector('[data-icon-plus]');
-            const otherMinus = otherItem.querySelector('[data-icon-minus]');
-            const otherBox = otherItem.querySelector('[data-icon-box]');
-            if (otherContent) {
-              otherContent.style.maxHeight = '0px';
-              otherContent.style.opacity = '0';
-            }
-            if (otherPlus) {
-              otherPlus.style.opacity = '1';
-              otherPlus.style.transform = 'rotate(0deg)';
-            }
-            if (otherMinus) otherMinus.style.opacity = '0';
-            if (otherBox) {
-              otherBox.style.backgroundColor = 'white';
-              otherBox.style.borderColor = '#E3E5EE';
-            }
-          }
-        });
-
-        // Toggle current item
-        if (isOpen) {
-          item.setAttribute('data-state', 'closed');
-          content.style.maxHeight = '0px';
-          content.style.opacity = '0';
-          if (iconPlus) {
-            iconPlus.style.opacity = '1';
-            iconPlus.style.transform = 'rotate(0deg)';
-          }
-          if (iconMinus) iconMinus.style.opacity = '0';
-          if (iconBox) {
-            iconBox.style.backgroundColor = 'white';
-            iconBox.style.borderColor = '#E3E5EE';
-          }
-        } else {
-          item.setAttribute('data-state', 'open');
-          content.style.maxHeight = content.scrollHeight + 'px';
-          content.style.opacity = '1';
-          if (iconPlus) {
-            iconPlus.style.opacity = '0';
-            iconPlus.style.transform = 'rotate(90deg)';
-          }
-          if (iconMinus) iconMinus.style.opacity = '1';
-          if (iconBox) {
-            iconBox.style.backgroundColor = '#DA7756';
-            iconBox.style.borderColor = '#DA7756';
-          }
-        }
-      });
-    });
-
-    // Open first item by default
-    const firstItem = items[0];
-    if (firstItem) {
-      firstItem.setAttribute('data-state', 'open');
-      const content = firstItem.querySelector('[data-faq-content]');
-      const iconPlus = firstItem.querySelector('[data-icon-plus]');
-      const iconMinus = firstItem.querySelector('[data-icon-minus]');
-      const iconBox = firstItem.querySelector('[data-icon-box]');
-      if (content) {
-        content.style.maxHeight = content.scrollHeight + 'px';
-        content.style.opacity = '1';
-      }
-      if (iconPlus) {
-        iconPlus.style.opacity = '0';
-        iconPlus.style.transform = 'rotate(90deg)';
-      }
-      if (iconMinus) iconMinus.style.opacity = '1';
-      if (iconBox) {
-        iconBox.style.backgroundColor = '#DA7756';
-        iconBox.style.borderColor = '#DA7756';
-      }
-    }
-  }
-
-  // Wait for DOM to be ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    requestAnimationFrame(init);
-  }
-})();
-`
-
 export function Faq() {
   return (
     <section className="py-[100px] bg-surface max-md:py-16" id="faq">
-      <style>{`
-        [data-faq-content] {
-          transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-          overflow: hidden;
-        }
-        [data-icon-plus], [data-icon-minus] {
-          transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        [data-icon-box] {
-          transition: background-color 0.2s ease, border-color 0.2s ease;
-        }
-        [data-faq-trigger]:hover [data-icon-box] {
-          border-color: #DA7756 !important;
-        }
-      `}</style>
-
       <div className="wrap">
         <div className="grid grid-cols-[330px_1fr] gap-16 items-start mt-2 max-md:grid-cols-1 max-md:gap-7">
           {/* Left aside */}
@@ -235,9 +113,6 @@ export function Faq() {
           </div>
         </div>
       </div>
-
-      {/* Accordion script - runs after DOM is ready */}
-      <script dangerouslySetInnerHTML={{ __html: accordionScript }} />
     </section>
   )
 }

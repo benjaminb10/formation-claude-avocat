@@ -79,3 +79,21 @@
 #claude-response {
   transition: opacity 0.3s ease;
 }
+
+/* FAQ Accordion animations */
+[data-faq-content] {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  overflow: hidden;
+}
+
+[data-icon-plus], [data-icon-minus] {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+[data-icon-box] {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+[data-faq-trigger]:hover [data-icon-box] {
+  border-color: #DA7756 !important;
+}
