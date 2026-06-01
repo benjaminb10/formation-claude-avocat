@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-base text-text bg-bg antialiased overflow-x-hidden;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-ink;
+  }
+
+  a {
+    @apply no-underline text-inherit;
+  }
+
+  img {
+    @apply max-w-full block;
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply max-w-wrap mx-auto px-8;
+  }
+
+  @media (max-width: 768px) {
+    .wrap {
+      @apply px-5;
+    }
+  }
+
+  .eyebrow {
+    @apply font-body text-eyebrow font-medium uppercase text-accent;
+  }
+}
+
+@layer utilities {
+  /* Section reveal animation */
+  .reveal {
+    @apply opacity-0 translate-y-5;
+  }
+
+  .reveal.is-visible {
+    @apply opacity-100 translate-y-0 transition-all duration-[640ms] ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      @apply opacity-100 translate-y-0;
+    }
+  }
+}
