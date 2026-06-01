@@ -61,3 +61,21 @@
     }
   }
 }
+
+/* Claude Mockup animations */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor {
+  display: none;
+  animation: blink 0.53s step-end infinite;
+  color: #DA7756;
+  margin-left: 1px;
+}
+
+#claude-user-bubble,
+#claude-response {
+  transition: opacity 0.3s ease;
+}

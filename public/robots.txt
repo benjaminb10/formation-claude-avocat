@@ -1,0 +1,8 @@
+# Robots.txt - Formation Claude pour Avocats
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://formation-claude-avocats.fr/sitemap.xml

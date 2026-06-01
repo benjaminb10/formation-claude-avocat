@@ -3,24 +3,6 @@ import { Pencil, Clock, Star, ArrowUp } from 'lucide-react'
 export function ClaudeMockup() {
   return (
     <div className="bg-[#1C1917] border border-white/[0.08] rounded-card overflow-hidden h-[420px] w-full flex flex-col shadow-mockup max-md:h-[400px] max-md:max-w-[340px] max-md:mx-auto">
-      {/* CSS for animations */}
-      <style>{`
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-        .typing-cursor {
-          display: none;
-          animation: blink 0.53s step-end infinite;
-          color: #DA7756;
-          margin-left: 1px;
-        }
-        #claude-user-bubble,
-        #claude-response {
-          transition: opacity 0.3s ease;
-        }
-      `}</style>
-
       {/* Title bar */}
       <div className="bg-[#252220] h-11 px-4 shrink-0 flex items-center gap-2">
         <div className="flex gap-2">
@@ -53,8 +35,7 @@ export function ClaudeMockup() {
           {/* User bubble */}
           <div
             id="claude-user-bubble"
-            className="flex justify-end"
-            style={{ opacity: 0 }}
+            className="flex justify-end opacity-0"
           >
             <div className="bg-[#2C2925] border border-white/10 rounded-[18px_18px_4px_18px] px-3.5 py-2.5 max-w-[85%] text-sm text-white/85 leading-[1.5]">
               <span id="claude-user-text"></span>
@@ -65,8 +46,7 @@ export function ClaudeMockup() {
           {/* Claude response */}
           <div
             id="claude-response"
-            className="flex gap-2.5 items-start"
-            style={{ opacity: 0 }}
+            className="flex gap-2.5 items-start opacity-0"
           >
             <div className="w-6 h-6 shrink-0 rounded-full bg-accent text-white font-body font-bold text-xs flex items-center justify-center">
               C

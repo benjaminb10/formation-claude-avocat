@@ -37,8 +37,10 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
 
     // Check reduced motion preference
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      userBubble.style.opacity = '1';
-      claudeResponse.style.opacity = '1';
+      userBubble.classList.remove('opacity-0');
+      userBubble.classList.add('opacity-100');
+      claudeResponse.classList.remove('opacity-0');
+      claudeResponse.classList.add('opacity-100');
       userText.textContent = sequences[0].user;
       claudeText.textContent = sequences[0].claude;
       userCursor.style.display = 'none';
@@ -63,8 +65,10 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
       const seq = sequences[seqIndex];
 
       // Reset
-      userBubble.style.opacity = '0';
-      claudeResponse.style.opacity = '0';
+      userBubble.classList.add('opacity-0');
+      userBubble.classList.remove('opacity-100');
+      claudeResponse.classList.add('opacity-0');
+      claudeResponse.classList.remove('opacity-100');
       userText.textContent = '';
       claudeText.textContent = '';
 
@@ -72,7 +76,8 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
       if (!active) return;
 
       // Show user bubble
-      userBubble.style.opacity = '1';
+      userBubble.classList.remove('opacity-0');
+      userBubble.classList.add('opacity-100');
       await typeText(userText, seq.user, userCursor, 35);
       if (!active) return;
 
@@ -80,7 +85,8 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
       if (!active) return;
 
       // Show claude response
-      claudeResponse.style.opacity = '1';
+      claudeResponse.classList.remove('opacity-0');
+      claudeResponse.classList.add('opacity-100');
       await typeText(claudeText, seq.claude, claudeCursor, 18);
       if (!active) return;
 
@@ -88,8 +94,10 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
       if (!active) return;
 
       // Fade out
-      userBubble.style.opacity = '0';
-      claudeResponse.style.opacity = '0';
+      userBubble.classList.add('opacity-0');
+      userBubble.classList.remove('opacity-100');
+      claudeResponse.classList.add('opacity-0');
+      claudeResponse.classList.remove('opacity-100');
       await sleep(300);
 
       seqIndex = (seqIndex + 1) % sequences.length;
