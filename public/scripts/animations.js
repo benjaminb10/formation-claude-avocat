@@ -191,14 +191,26 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
   }
 
   // Initialize when DOM is ready
+  // Wait for React to finish rendering (createRoot clears and re-renders)
   function init() {
     initClaudeChat();
     initProgrammeScrollSpy();
   }
 
+  function waitForElements() {
+    // Check if key elements exist (React has finished rendering)
+    if (document.getElementById('claude-chat') && document.getElementById('programme-container')) {
+      init();
+    } else {
+      // Retry after a short delay
+      setTimeout(waitForElements, 100);
+    }
+  }
+
+  // Start checking after DOM is loaded
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => setTimeout(waitForElements, 100));
   } else {
-    init();
+    setTimeout(waitForElements, 100);
   }
 })();
