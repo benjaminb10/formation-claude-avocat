@@ -81,7 +81,7 @@ export function Programme() {
 
         <div
           id="programme-container"
-          className="grid grid-cols-[288px_1fr] gap-14 items-start max-md:grid-cols-1 max-md:gap-0 min-h-[110vh]"
+          className="grid grid-cols-[288px_1fr] gap-14 items-start max-md:grid-cols-1 max-md:gap-0"
         >
           {/* Menu - hidden on mobile */}
           <div className="sticky top-[104px] flex flex-col max-md:hidden">
