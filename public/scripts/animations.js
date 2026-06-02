@@ -309,9 +309,10 @@ Maître, agissant pour le compte de la société susvisée, nous vous mettons en
   }
 
   // Start checking after DOM is loaded
+  // Wait longer initially to ensure React's createRoot has finished rendering
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(waitForElements, 100));
+    document.addEventListener('DOMContentLoaded', () => setTimeout(waitForElements, 500));
   } else {
-    setTimeout(waitForElements, 100);
+    setTimeout(waitForElements, 500);
   }
 })();
